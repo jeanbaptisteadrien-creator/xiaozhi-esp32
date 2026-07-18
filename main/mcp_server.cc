@@ -95,6 +95,16 @@ void McpServer::AddCommonTools() {
                 }
                 return false;
             });
+        AddTool("self.screen.set_emotion",
+            "Set the robot facial emotion shown on the screen. Call this tool whenever the user asks you to display a specific face (for example show a sad face, look happy, be surprised) or to express how you feel. The emotion argument must be exactly one of: neutral, happy, sad, angry, surprised, loving, sleepy, cool.",
+            PropertyList({
+                Property("emotion", kPropertyTypeString)
+            }),
+            [display](const PropertyList& properties) -> ReturnValue {
+                auto emotion = properties["emotion"].value<std::string>();
+                display->SetEmotion(emotion.c_str());
+                return true;
+            });
     }
 
     auto camera = board.GetCamera();
